@@ -6,22 +6,63 @@ export const useReports = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Old static fetch code:
+  // useEffect(() => {
+  //   const fetchReports = async () => {
+  //     try {
+  //       const response = await fetch('/data/reports.json');
+  //       if (!response.ok) {
+  //         throw new Error('Failed to fetch reports');
+  //       }
+  //       const data = await response.json();
+  //       setReports(data);
+  //     } catch (err) {
+  //       setError(err instanceof Error ? err.message : 'Unknown error');
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchReports();
+  // }, []);
+
+  // New Strapi fetch code:
   useEffect(() => {
     const fetchReports = async () => {
       try {
-        const response = await fetch('/data/reports.json');
+        // Change this to your Strapi API URL if needed
+        const response = await fetch('http://localhost:1337/api/products?populate=image');
         if (!response.ok) {
           throw new Error('Failed to fetch reports');
         }
         const data = await response.json();
-        setReports(data);
+        // Map Strapi response to your Report type
+        const mappedReports = data.data.map((item: any) => ({
+          id: item.id,
+          title: item.attributes.name,
+          category: item.attributes.category || '',
+          region: item.attributes.region || '',
+          type: item.attributes.type || '',
+          price: item.attributes.price,
+          currency: item.attributes.currency || 'USD',
+          pages: item.attributes.pages || 0,
+          date: item.attributes.date || '',
+          description: item.attributes.description || '',
+          shortDescription: item.attributes.shortDescription || '',
+          keyInsights: item.attributes.keyInsights || [],
+          tableOfContents: item.attributes.tableOfContents || [],
+          whatIncludes: item.attributes.whatIncludes || [],
+          image: item.attributes.image?.data
+            ? 'http://localhost:1337' + item.attributes.image.data.attributes.url
+            : '',
+          featured: item.attributes.featured || false,
+        }));
+        setReports(mappedReports);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error');
       } finally {
         setLoading(false);
       }
     };
-
     fetchReports();
   }, []);
 
