@@ -30,7 +30,7 @@ export const useReports = () => {
     const fetchReports = async () => {
       try {
         // Change this to your Strapi API URL if needed
-        const response = await fetch('https://credible-luck-2382057333.strapiapp.com/api/products');
+        const response = await fetch('https://credible-luck-2382057333.strapiapp.com/api/products?populate=picture');
         if (!response.ok) {
           throw new Error('Failed to fetch reports');
         }
