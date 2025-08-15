@@ -6,7 +6,7 @@ const AboutPage: React.FC = () => {
   const values = [
     {
       icon: Target,
-      title: 'Precision',
+      title: 'Precision. Hello world',
       description: 'We strive for maximum accuracy in every research study and forecast'
     },
     {
