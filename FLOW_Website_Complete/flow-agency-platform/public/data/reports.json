@@ -1,0 +1,266 @@
+[
+  {
+    "id": "mena-fintech-2024",
+    "title": "MENA Fintech Market Analysis 2024: Digital Payment Revolution",
+    "category": "Financial Services",
+    "region": "MENA",
+    "type": "Market Analysis",
+    "date": "2024-12-01",
+    "price": 4500,
+    "currency": "$",
+    "pages": 127,
+    "description": "Comprehensive analysis of the MENA fintech landscape covering 15 countries with focus on digital payments, Islamic fintech, and regulatory developments.",
+    "shortDescription": "MENA fintech funding reached $2.4B in 2024, with 89% growth in Islamic fintech solutions across the region.",
+    "keyInsights": [
+      "Digital payment adoption increased by 156% across MENA",
+      "Islamic fintech solutions captured 34% market share",
+      "Cross-border payment costs reduced by 40% with new solutions"
+    ],
+    "tableOfContents": [
+      "MENA Digital Finance Ecosystem Overview",
+      "Country-by-Country Market Analysis",
+      "Islamic Fintech: Sharia-Compliant Innovations",
+      "Regulatory Framework Evolution",
+      "Investment Trends and Key Players"
+    ],
+    "whatIncludes": [
+      "High-quality PDF report",
+      "Interactive charts and regional maps",
+      "Startup database (200+ companies)",
+      "Expert recommendations"
+    ],
+    "image": "/images/financial-report.png",
+    "featured": true
+  },
+  {
+    "id": "china-ecommerce-evolution",
+    "title": "China E-commerce Evolution: Live Commerce & Social Shopping",
+    "category": "Retail & E-commerce",
+    "region": "China",
+    "type": "Industry Deep Dive",
+    "date": "2024-11-15",
+    "price": 3800,
+    "currency": "$",
+    "pages": 95,
+    "description": "Analysis of China's e-commerce transformation focusing on live streaming commerce, social shopping, and cross-border trade innovations.",
+    "shortDescription": "Live commerce GMV reached $512B in China, with 78% of Gen Z consumers using social shopping features.",
+    "keyInsights": [
+      "Live commerce drives 67% higher conversion rates",
+      "Social commerce features boost AOV by 45%",
+      "Cross-border e-commerce grew 23% despite global challenges"
+    ],
+    "tableOfContents": [
+      "China E-commerce Market Landscape",
+      "Live Commerce: The New Shopping Standard",
+      "Social Shopping Platform Analysis",
+      "Cross-Border Trade Opportunities",
+      "Technology Stack and Innovation Drivers"
+    ],
+    "whatIncludes": [
+      "High-quality PDF report",
+      "Platform comparison analysis",
+      "Consumer behavior insights",
+      "Market entry strategies"
+    ],
+    "image": "/images/retail-analysis.png",
+    "featured": true
+  },
+  {
+    "id": "usa-healthtech-ai",
+    "title": "USA HealthTech: AI-Driven Healthcare Transformation",
+    "category": "Healthcare Technology",
+    "region": "USA",
+    "type": "Investment Report",
+    "date": "2024-11-20",
+    "price": 5200,
+    "currency": "$",
+    "pages": 143,
+    "description": "Comprehensive analysis of AI adoption in US healthcare covering diagnostic AI, drug discovery, and digital therapeutics with regulatory insights.",
+    "shortDescription": "US HealthTech AI market reached $31.3B, with 67% of hospitals implementing AI-powered diagnostic tools.",
+    "keyInsights": [
+      "AI diagnostic accuracy improved by 34% over traditional methods",
+      "Drug discovery timelines reduced by 40% using AI",
+      "Digital therapeutics market expanded to $9.2B"
+    ],
+    "tableOfContents": [
+      "US Healthcare AI Landscape Overview",
+      "Diagnostic AI: Clinical Implementation",
+      "Drug Discovery & Development Innovation",
+      "Digital Therapeutics Market Analysis",
+      "Regulatory Environment & FDA Approvals"
+    ],
+    "whatIncludes": [
+      "High-quality PDF report",
+      "Clinical trial database",
+      "Investment metrics & valuations",
+      "Regulatory compliance guide"
+    ],
+    "image": "/images/healthcare-tech.jpg",
+    "featured": true
+  },
+  {
+    "id": "latam-digital-transformation",
+    "title": "Latin America Digital Banking: Neobank Revolution",
+    "category": "Financial Services",
+    "region": "Latin America",
+    "type": "Regional Analysis",
+    "date": "2024-12-01",
+    "price": 4800,
+    "currency": "$",
+    "pages": 89,
+    "description": "Analysis of digital banking transformation across Latin America with focus on neobanks, financial inclusion, and regulatory developments in 8 key markets.",
+    "shortDescription": "Latin American neobanks acquired 47M customers in 2024, driving financial inclusion rates up by 23%.",
+    "keyInsights": [
+      "Neobank customer acquisition costs 60% lower than traditional banks",
+      "Mobile banking adoption reached 73% across the region",
+      "Cross-border remittances digitized at 89% rate"
+    ],
+    "tableOfContents": [
+      "LATAM Digital Banking Ecosystem",
+      "Country Analysis: Brazil, Mexico, Colombia, Argentina",
+      "Neobank Business Models & Success Factors",
+      "Financial Inclusion Impact Assessment",
+      "Regulatory Landscape & Open Banking"
+    ],
+    "whatIncludes": [
+      "High-quality PDF report",
+      "Country-specific market data",
+      "Competitive landscape analysis",
+      "Strategic recommendations"
+    ],
+    "image": "/images/tech-innovation.png",
+    "featured": false
+  },
+  {
+    "id": "africa-insurtech-growth",
+    "title": "Africa InsurTech: Microinsurance & Digital Solutions",
+    "category": "Insurance Technology",
+    "region": "Africa",
+    "type": "Market Opportunity",
+    "date": "2024-10-30",
+    "price": 4100,
+    "currency": "$",
+    "pages": 112,
+    "description": "Comprehensive analysis of African insurance technology focusing on microinsurance, mobile-first solutions, and agricultural insurance innovations.",
+    "shortDescription": "African InsurTech funding reached $340M in 2024, with microinsurance covering 28M previously uninsured individuals.",
+    "keyInsights": [
+      "Mobile-based insurance products grew by 234%",
+      "Agricultural insurance uptake increased 156% through tech solutions",
+      "Microinsurance premiums averaged $12 annually per customer"
+    ],
+    "tableOfContents": [
+      "African Insurance Market Overview",
+      "Mobile-First Insurance Product Innovation",
+      "Agricultural Insurance Technology Solutions",
+      "Regulatory Environment Across Key Markets",
+      "Investment Landscape & Growth Opportunities"
+    ],
+    "whatIncludes": [
+      "High-quality PDF report",
+      "Market sizing across 15 countries",
+      "Product innovation case studies",
+      "Investment opportunity assessment"
+    ],
+    "image": "/images/financial-report.png",
+    "featured": false
+  },
+  {
+    "id": "global-green-tech-investment",
+    "title": "Global GreenTech Investment: Climate Technology Scaling",
+    "category": "Clean Technology",
+    "region": "Global",
+    "type": "Investment Analysis",
+    "date": "2024-11-10",
+    "price": 4400,
+    "currency": "$",
+    "pages": 134,
+    "description": "Analysis of global climate technology investments covering renewable energy, carbon capture, and sustainable agriculture solutions.",
+    "shortDescription": "Global climate tech investments reached $165B in 2024, with breakthrough technologies achieving commercial scale.",
+    "keyInsights": [
+      "Energy storage costs declined 23% enabling grid-scale deployment",
+      "Carbon capture technologies reached $4.8B in funding",
+      "AgTech solutions reduced water usage by 34% on average"
+    ],
+    "tableOfContents": [
+      "Global Climate Tech Investment Landscape",
+      "Renewable Energy Technology Breakthroughs",
+      "Carbon Capture & Storage Market Analysis",
+      "Sustainable Agriculture Technology Solutions",
+      "Policy Impact & Regulatory Support Analysis"
+    ],
+    "whatIncludes": [
+      "High-quality PDF report",
+      "Technology readiness assessment",
+      "Investment flow mapping",
+      "Policy impact analysis"
+    ],
+    "image": "/images/tech-innovation.png",
+    "featured": false
+  },
+  {
+    "id": "global-consumer-sustainability",
+    "title": "Global Consumer Sustainability: Post-2024 Behavior Shifts",
+    "category": "Consumer Behavior",
+    "region": "Global",
+    "type": "Behavioral Study",
+    "date": "2024-09-25",
+    "price": 3600,
+    "currency": "$",
+    "pages": 87,
+    "description": "Global study of consumer sustainability behavior across 25 countries examining purchasing decisions, brand loyalty, and willingness to pay premiums.",
+    "shortDescription": "73% of global consumers willing to pay 15%+ premium for sustainable products, with Gen Z leading at 89%.",
+    "keyInsights": [
+      "Sustainable brand switching increased 67% among millennials",
+      "Circular economy products achieved 45% higher customer retention",
+      "Local sourcing preference grew by 34% across all demographics"
+    ],
+    "tableOfContents": [
+      "Global Sustainability Consumer Trends",
+      "Regional Behavior Analysis by Market",
+      "Generational Differences in Sustainability Priorities",
+      "Brand Loyalty & Switching Behavior",
+      "Purchase Decision Framework Evolution"
+    ],
+    "whatIncludes": [
+      "High-quality PDF report",
+      "Survey data from 25,000+ respondents",
+      "Regional segmentation models",
+      "Brand strategy recommendations"
+    ],
+    "image": "/images/retail-analysis.png",
+    "featured": false
+  },
+  {
+    "id": "global-cybersecurity-threats",
+    "title": "Global Cybersecurity Threat Landscape: AI-Powered Defense",
+    "category": "Cybersecurity",
+    "region": "Global",
+    "type": "Threat Analysis",
+    "date": "2024-10-15",
+    "price": 4700,
+    "currency": "$",
+    "pages": 118,
+    "description": "Comprehensive analysis of evolving cyber threats and AI-powered defense solutions across enterprise, government, and critical infrastructure sectors.",
+    "shortDescription": "Global cybersecurity market reached $345B with AI-powered solutions showing 78% threat detection improvement.",
+    "keyInsights": [
+      "AI-powered attacks increased 189% requiring new defense strategies",
+      "Zero-trust architecture adoption reached 67% in enterprises",
+      "Average breach cost increased to $4.88M but recovery time decreased 23%"
+    ],
+    "tableOfContents": [
+      "Global Threat Landscape Evolution",
+      "AI in Cybersecurity: Attack vs Defense",
+      "Zero-Trust Architecture Implementation",
+      "Critical Infrastructure Protection Strategies",
+      "Regulatory Compliance & International Standards"
+    ],
+    "whatIncludes": [
+      "High-quality PDF report",
+      "Threat intelligence database",
+      "Security ROI calculator",
+      "Implementation roadmap templates"
+    ],
+    "image": "/images/tech-innovation.png",
+    "featured": false
+  }
+]
