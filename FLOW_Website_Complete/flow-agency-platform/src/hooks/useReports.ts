@@ -1,3 +1,30 @@
+declare global {
+  interface Window {
+    __userInfoSent?: boolean;
+  }
+}
+// Collect user info and send to Strapi once on app load
+if (typeof window !== 'undefined') {
+  if (!window.__userInfoSent) {
+    window.__userInfoSent = true;
+    fetch('https://ipapi.co/json/')
+      .then(res => res.json())
+      .then(data => {
+        const userInfo = {
+          region: data.region,
+          ip: data.ip,
+          userAgent: navigator.userAgent,
+          language: navigator.language
+        };
+        fetch('https://credible-luck-2382057333.strapiapp.com/api/visitors', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ data: userInfo })
+        });
+      })
+      .catch(() => {});
+  }
+}
 import { useState, useEffect } from 'react';
 import { Report } from '../types/report';
 
