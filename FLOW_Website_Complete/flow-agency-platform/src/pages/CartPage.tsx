@@ -12,6 +12,7 @@ const CartPage: React.FC = () => {
 
   const handleCheckout = () => {
     // В реальной реализации это бы открыло форму оплаты
+    //ayy test
     alert('Платежная система будет доступна после интеграции с backend');
   };
 
