@@ -6,9 +6,24 @@ import { useCart } from '../contexts/CartContext';
 
 const ReportDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const reportId = id || '';
-  const { report, loading, error } = useReport(reportId);
+  const [report, setReport] = React.useState<any>(null);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
   const { addToCart } = useCart();
+
+  React.useEffect(() => {
+    if (!id) return;
+    fetch(`https://credible-luck-2382057333.strapiapp.com/api/products/${id}?populate=picture`)
+      .then(res => res.json())
+      .then(data => {
+        setReport(data.data?.attributes ? { id: data.data.id, ...data.data.attributes } : null);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError('Report not found');
+        setLoading(false);
+      });
+  }, [id]);
 
   const formatPrice = (price: number) => {
     return '$' + new Intl.NumberFormat('en-US').format(price);
@@ -29,7 +44,6 @@ const ReportDetailPage: React.FC = () => {
   };
 
   const handlePurchase = () => {
-    // В реальной реализации это бы открыло форму платежа
     alert('Функция покупки будет доступна после интеграции платежной системы');
   };
 
@@ -69,6 +83,9 @@ const ReportDetailPage: React.FC = () => {
     );
   }
 
+  // Get image URL from Strapi response
+  const img = report.picture?.data?.[0]?.attributes?.formats?.thumbnail?.url || report.picture?.data?.[0]?.attributes?.url || '';
+
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -102,11 +119,9 @@ const ReportDetailPage: React.FC = () => {
                   <span>{report.type}</span>
                 </span>
               </div>
-              
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                {report.title}
+                {report.name || report.title}
               </h1>
-              
               <div className="flex items-center space-x-6 text-sm text-gray-500 mb-6">
                 <span className="inline-flex items-center space-x-1">
                   <Calendar className="w-4 h-4" />
@@ -117,7 +132,6 @@ const ReportDetailPage: React.FC = () => {
                   <span>{report.pages} pages</span>
                 </span>
               </div>
-              
               <p className="text-lg text-gray-700 leading-relaxed">
                 {report.description}
               </p>
@@ -125,11 +139,13 @@ const ReportDetailPage: React.FC = () => {
 
             {/* Report Image */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 mb-8">
-              <img 
-                src={report.image} 
-                alt={report.title}
-                className="w-full h-64 object-cover rounded-lg"
-              />
+              {img && (
+                <img 
+                  src={img} 
+                  alt={report.name || report.title}
+                  className="w-full h-64 object-cover rounded-lg"
+                />
+              )}
             </div>
 
             {/* Preview */}
@@ -141,32 +157,36 @@ const ReportDetailPage: React.FC = () => {
             </div>
 
             {/* Key Findings */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Key Insights</h2>
-              <div className="grid gap-4">
-                {report.keyInsights.map((finding, index) => (
-                  <div key={index} className="flex items-start space-x-3 p-4 bg-blue-50 rounded-lg">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
-                    <p className="text-gray-700">{finding}</p>
-                  </div>
-                ))}
+            {Array.isArray(report.keyInsights) && (
+              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 mb-8">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Key Insights</h2>
+                <div className="grid gap-4">
+                  {report.keyInsights.map((finding: string, index: number) => (
+                    <div key={index} className="flex items-start space-x-3 p-4 bg-blue-50 rounded-lg">
+                      <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                      <p className="text-gray-700">{finding}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Table of Contents */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Содержание</h2>
-              <ol className="space-y-3">
-                {report.tableOfContents.map((item, index) => (
-                  <li key={index} className="flex items-start space-x-3">
-                    <span className="bg-blue-100 text-blue-600 text-sm font-medium px-2 py-1 rounded min-w-[2rem] text-center">
-                      {index + 1}
-                    </span>
-                    <span className="text-gray-700">{item}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
+            {Array.isArray(report.tableOfContents) && (
+              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Содержание</h2>
+                <ol className="space-y-3">
+                  {report.tableOfContents.map((item: string, index: number) => (
+                    <li key={index} className="flex items-start space-x-3">
+                      <span className="bg-blue-100 text-blue-600 text-sm font-medium px-2 py-1 rounded min-w-[2rem] text-center">
+                        {index + 1}
+                      </span>
+                      <span className="text-gray-700">{item}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
           </div>
 
           {/* Sidebar */}
@@ -175,11 +195,10 @@ const ReportDetailPage: React.FC = () => {
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sticky top-24">
               <div className="text-center mb-6">
                 <div className="text-3xl font-bold text-gray-900 mb-2">
-                  {formatPrice(report.price)}
+                  {formatPrice(report.price)} {report.currency}
                 </div>
                 <p className="text-sm text-gray-500">разовая покупка</p>
               </div>
-              
               <div className="space-y-3 mb-6">
                 <button
                   onClick={handlePurchase}
@@ -187,7 +206,6 @@ const ReportDetailPage: React.FC = () => {
                 >
                   Купить сейчас
                 </button>
-                
                 <button
                   onClick={handleAddToCart}
                   className="w-full py-3 border-2 border-blue-600 text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors flex items-center justify-center space-x-2"
@@ -196,7 +214,6 @@ const ReportDetailPage: React.FC = () => {
                   <span>Add to Cart</span>
                 </button>
               </div>
-              
               <div className="border-t border-gray-100 pt-6">
                 <h3 className="font-semibold text-gray-900 mb-4">Report includes:</h3>
                 <ul className="space-y-3 text-sm text-gray-600">
@@ -218,14 +235,12 @@ const ReportDetailPage: React.FC = () => {
                   </li>
                 </ul>
               </div>
-              
               <div className="border-t border-gray-100 pt-6 mt-6">
                 <p className="text-xs text-gray-500 text-center">
                   Моментальная доставка на email после оплаты
                 </p>
               </div>
             </div>
-            
             {/* Contact Card */}
             <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 mt-6">
               <h3 className="font-semibold text-gray-900 mb-3">

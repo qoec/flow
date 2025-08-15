@@ -51,7 +51,9 @@ export const useReports = () => {
           keyInsights: item.keyInsights || [],
           tableOfContents: item.tableOfContents || [],
           whatIncludes: item.whatIncludes || [],
-          image: item.image?.url || '',
+          image: item.picture && item.picture.length > 0
+            ? item.picture[0].formats?.thumbnail?.url || item.picture[0].url
+            : '',
           featured: item.featured || false,
         }));
         setReports(mappedReports);

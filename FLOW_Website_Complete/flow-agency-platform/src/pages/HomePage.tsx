@@ -6,8 +6,7 @@ import { companyInfo, services } from '../data/company';
 import ReportCard from '../components/ReportCard';
 
 const HomePage: React.FC = () => {
-  const { getFeaturedReports, loading } = useReports();
-  const featuredReports = getFeaturedReports();
+  const { reports, loading, error } = useReports();
 
   const stats = [
     { icon: BarChart3, value: '500+', label: 'Research Studies' },
@@ -130,38 +129,31 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Featured Reports */}
+      {/* All Reports Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-end mb-12">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Featured Reports
+                All Reports
               </h2>
               <p className="text-lg text-gray-600">
-                Our latest research on emerging market trends and opportunities
+                Browse all available market research reports
               </p>
             </div>
-            
-            <Link
-              to="/reports"
-              className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold group"
-            >
-              View All
-              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
           </div>
-          
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[...Array(3)].map((_, i) => (
                 <div key={i} className="bg-gray-200 rounded-xl h-96 animate-pulse"></div>
               ))}
             </div>
+          ) : error ? (
+            <div className="text-red-500">{error}</div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredReports.slice(0, 3).map((report) => (
-                <ReportCard key={report.id} report={report} featured={true} />
+              {reports.map((report) => (
+                <ReportCard key={report.id} report={report} />
               ))}
             </div>
           )}
