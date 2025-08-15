@@ -35,26 +35,24 @@ export const useReports = () => {
           throw new Error('Failed to fetch reports');
         }
         const data = await response.json();
-        // Map Strapi response to your Report type
+        // Map Strapi response to your Report type (fields at top level)
         const mappedReports = data.data.map((item: any) => ({
           id: item.id,
-          title: item.attributes.name,
-          category: item.attributes.category || '',
-          region: item.attributes.region || '',
-          type: item.attributes.type || '',
-          price: item.attributes.price,
-          currency: item.attributes.currency || 'USD',
-          pages: item.attributes.pages || 0,
-          date: item.attributes.date || '',
-          description: item.attributes.description || '',
-          shortDescription: item.attributes.shortDescription || '',
-          keyInsights: item.attributes.keyInsights || [],
-          tableOfContents: item.attributes.tableOfContents || [],
-          whatIncludes: item.attributes.whatIncludes || [],
-          image: item.attributes.image?.data
-            ? 'http://localhost:1337' + item.attributes.image.data.attributes.url
-            : '',
-          featured: item.attributes.featured || false,
+          title: item.name,
+          category: item.category || '',
+          region: item.region || '',
+          type: item.type || '',
+          price: item.price,
+          currency: item.currency || 'USD',
+          pages: item.pages || 0,
+          date: item.date || '',
+          description: item.description || '',
+          shortDescription: item.shortDescription || '',
+          keyInsights: item.keyInsights || [],
+          tableOfContents: item.tableOfContents || [],
+          whatIncludes: item.whatIncludes || [],
+          image: item.image?.url || '',
+          featured: item.featured || false,
         }));
         setReports(mappedReports);
       } catch (err) {
