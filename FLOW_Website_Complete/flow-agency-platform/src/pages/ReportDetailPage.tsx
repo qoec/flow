@@ -103,17 +103,6 @@ const ReportDetailPage: React.FC = () => {
       img = report.picture.data[0]?.attributes?.formats?.thumbnail?.url || report.picture.data[0]?.attributes?.url || '';
     }
   }
-  // Robust image extraction for Strapi v4 and flat arrays
-  let img = '';
-  if (report.picture) {
-    if (Array.isArray(report.picture)) {
-      // Flat array
-      img = report.picture[0]?.formats?.thumbnail?.url || report.picture[0]?.url || '';
-    } else if (report.picture.data) {
-      // Strapi v4 nested
-      img = report.picture.data[0]?.attributes?.formats?.thumbnail?.url || report.picture.data[0]?.attributes?.url || '';
-    }
-  }
 
   // Check for required fields
   const requiredFields = [
