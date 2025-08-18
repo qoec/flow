@@ -4,6 +4,7 @@ declare global {
   }
 }
 // Collect user info and send to Strapi once on app load
+/*
 if (typeof window !== 'undefined') {
   if (!window.__userInfoSent) {
     window.__userInfoSent = true;
@@ -25,6 +26,7 @@ if (typeof window !== 'undefined') {
       .catch(() => {});
   }
 }
+*/
 import { useState, useEffect } from 'react';
 import { Report } from '../types/report';
 
