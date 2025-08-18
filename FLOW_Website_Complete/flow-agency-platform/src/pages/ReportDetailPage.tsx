@@ -16,7 +16,16 @@ const ReportDetailPage: React.FC = () => {
     fetch(`https://credible-luck-2382057333.strapiapp.com/api/products/${id}?populate=picture`)
       .then(res => res.json())
       .then(data => {
-        setReport(data.data?.attributes ? { id: data.data.id, ...data.data.attributes } : null);
+        // Accept both Strapi v4 and flat API responses
+        let reportData = null;
+        if (data.data) {
+          if (data.data.attributes) {
+            reportData = { id: data.data.id, ...data.data.attributes };
+          } else {
+            reportData = data.data;
+          }
+        }
+        setReport(reportData);
         setLoading(false);
       })
       .catch(() => {
@@ -83,8 +92,34 @@ const ReportDetailPage: React.FC = () => {
     );
   }
 
-  // Get image URL from Strapi response
-  const img = report.picture?.data?.[0]?.attributes?.formats?.thumbnail?.url || report.picture?.data?.[0]?.attributes?.url || '';
+  // Robust image extraction for Strapi v4 and flat arrays
+  let img = '';
+  if (report.picture) {
+    if (Array.isArray(report.picture)) {
+      // Flat array
+      img = report.picture[0]?.formats?.thumbnail?.url || report.picture[0]?.url || '';
+    } else if (report.picture.data) {
+      // Strapi v4 nested
+      img = report.picture.data[0]?.attributes?.formats?.thumbnail?.url || report.picture.data[0]?.attributes?.url || '';
+    }
+  }
+  // Robust image extraction for Strapi v4 and flat arrays
+  let img = '';
+  if (report.picture) {
+    if (Array.isArray(report.picture)) {
+      // Flat array
+      img = report.picture[0]?.formats?.thumbnail?.url || report.picture[0]?.url || '';
+    } else if (report.picture.data) {
+      // Strapi v4 nested
+      img = report.picture.data[0]?.attributes?.formats?.thumbnail?.url || report.picture.data[0]?.attributes?.url || '';
+    }
+  }
+
+  // Check for required fields
+  const requiredFields = [
+    'name', 'price', 'currency', 'category', 'region', 'type', 'pages', 'date', 'description', 'shortDescription', 'keyInsights', 'tableOfContents', 'whatIncludes', 'picture', 'documentId'
+  ];
+  const missingFields = requiredFields.filter(f => report && (report[f] === undefined || report[f] === null || (Array.isArray(report[f]) && report[f].length === 0)));
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">
@@ -99,6 +134,12 @@ const ReportDetailPage: React.FC = () => {
             Back to Reports
           </Link>
         </div>
+
+        {missingFields.length > 0 && (
+          <div className="mb-8 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700">
+            <strong>Warning:</strong> Missing fields: {missingFields.join(', ')}. Please contact support or admin.
+          </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
@@ -201,7 +242,7 @@ const ReportDetailPage: React.FC = () => {
               </div>
               <div className="space-y-3 mb-6">
                 <button
-                  onClick={handlePurchase}
+                  onClick={() => alert('Оплата будет доступна после интеграции платежной системы (Stripe, YooKassa, etc).')}
                   className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
                 >
                   Купить сейчас
@@ -217,22 +258,19 @@ const ReportDetailPage: React.FC = () => {
               <div className="border-t border-gray-100 pt-6">
                 <h3 className="font-semibold text-gray-900 mb-4">Report includes:</h3>
                 <ul className="space-y-3 text-sm text-gray-600">
-                  <li className="flex items-center space-x-2">
-                    <Download className="w-4 h-4 text-green-600" />
-                    <span>PDF-файл высокого качества</span>
-                  </li>
-                  <li className="flex items-center space-x-2">
-                    <BarChart3 className="w-4 h-4 text-green-600" />
-                    <span>Графики и схемы</span>
-                  </li>
-                  <li className="flex items-center space-x-2">
-                    <Users className="w-4 h-4 text-green-600" />
-                    <span>Данные опросов</span>
-                  </li>
-                  <li className="flex items-center space-x-2">
-                    <Award className="w-4 h-4 text-green-600" />
-                    <span>Экспертные рекомендации</span>
-                  </li>
+                  {Array.isArray(report.whatIncludes)
+                    ? report.whatIncludes.map((inc: string, idx: number) => (
+                        <li key={idx} className="flex items-center space-x-2">
+                          <Download className="w-4 h-4 text-green-600" />
+                          <span>{inc}</span>
+                        </li>
+                      ))
+                    : (
+                        <li className="flex items-center space-x-2">
+                          <Download className="w-4 h-4 text-green-600" />
+                          <span>PDF-файл высокого качества</span>
+                        </li>
+                      )}
                 </ul>
               </div>
               <div className="border-t border-gray-100 pt-6 mt-6">
