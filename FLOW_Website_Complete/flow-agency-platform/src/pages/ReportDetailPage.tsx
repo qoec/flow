@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Calendar, FileText, MapPin, Tag, ShoppingCart, Download, Users, BarChart3, Award } from 'lucide-react';
 import { useReport } from '../hooks/useReports';
@@ -11,21 +11,22 @@ const ReportDetailPage: React.FC = () => {
   const [error, setError] = React.useState<string | null>(null);
   const { addToCart } = useCart();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!id) return;
-    fetch(`https://credible-luck-2382057333.strapiapp.com/api/products/${id}?populate=picture`)
+    setLoading(true);
+    setError(null);
+    fetch(`https://credible-luck-2382057333.strapiapp.com/api/products?filters[id][$eq]=${id}&populate=picture`)
       .then(res => res.json())
       .then(data => {
-        // Accept flat Strapi product response
-        let reportData = null;
-        if (data.data) {
-          reportData = data.data;
+        if (data.data && data.data.length > 0) {
+          setReport(data.data[0]);
+        } else {
+          setError('Отчет не найден');
         }
-        setReport(reportData);
         setLoading(false);
       })
       .catch(() => {
-        setError('Report not found');
+        setError('Ошибка загрузки отчета');
         setLoading(false);
       });
   }, [id]);
@@ -65,24 +66,6 @@ const ReportDetailPage: React.FC = () => {
               <div className="h-6 bg-gray-200 rounded w-2/3"></div>
             </div>
           </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error || !report) {
-    return (
-      <div className="min-h-screen bg-gray-50 py-12">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Отчет не найден</h1>
-          <p className="text-gray-600 mb-8">{error}</p>
-          <Link
-            to="/reports"
-            className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold"
-          >
-            <ArrowLeft className="mr-2 w-4 h-4" />
-            Вернуться к каталогу
-          </Link>
         </div>
       </div>
     );
