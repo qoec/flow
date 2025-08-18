@@ -16,14 +16,10 @@ const ReportDetailPage: React.FC = () => {
     fetch(`https://credible-luck-2382057333.strapiapp.com/api/products/${id}?populate=picture`)
       .then(res => res.json())
       .then(data => {
-        // Accept both Strapi v4 and flat API responses
+        // Accept flat Strapi product response
         let reportData = null;
         if (data.data) {
-          if (data.data.attributes) {
-            reportData = { id: data.data.id, ...data.data.attributes };
-          } else {
-            reportData = data.data;
-          }
+          reportData = data.data;
         }
         setReport(reportData);
         setLoading(false);
