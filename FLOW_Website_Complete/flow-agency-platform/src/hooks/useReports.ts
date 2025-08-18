@@ -56,33 +56,39 @@ export const useReports = () => {
   useEffect(() => {
     const fetchReports = async () => {
       try {
-        // Change this to your Strapi API URL if needed
         const response = await fetch('https://credible-luck-2382057333.strapiapp.com/api/products?populate=picture');
         if (!response.ok) {
           throw new Error('Failed to fetch reports');
         }
         const data = await response.json();
         // Map Strapi response to your Report type (fields at top level)
-        const mappedReports = data.data.map((item: any) => ({
-          id: item.id,
-          title: item.name,
-          category: item.category || '',
-          region: item.region || '',
-          type: item.type || '',
-          price: item.price,
-          currency: item.currency || 'USD',
-          pages: item.pages || 0,
-          date: item.date || '',
-          description: item.description || '',
-          shortDescription: item.shortDescription || '',
-          keyInsights: item.keyInsights || [],
-          tableOfContents: item.tableOfContents || [],
-          whatIncludes: item.whatIncludes || [],
-          image: item.picture && item.picture.length > 0
-            ? item.picture[0].formats?.thumbnail?.url || item.picture[0].url
-            : '',
-          featured: item.featured || false,
-        }));
+        const mappedReports = data.data.map((item: any) => {
+          // Strapi v4: { id, attributes: {...fields} }
+          const attrs = item.attributes || item;
+          return {
+            id: item.id,
+            name: attrs.name,
+            title: attrs.name || attrs.title,
+            category: attrs.category || '',
+            region: attrs.region || '',
+            type: attrs.type || '',
+            price: attrs.price,
+            currency: attrs.currency || 'USD',
+            pages: attrs.pages || 0,
+            date: attrs.date || '',
+            description: attrs.description || '',
+            shortDescription: attrs.shortDescription || '',
+            keyInsights: attrs.keyInsights || [],
+            tableOfContents: attrs.tableOfContents || [],
+            whatIncludes: attrs.whatIncludes || [],
+            image: attrs.picture && attrs.picture.length > 0
+              ? attrs.picture[0].formats?.thumbnail?.url || attrs.picture[0].url
+              : '',
+            featured: attrs.featured || false,
+            documentId: attrs.documentId || '',
+            picture: attrs.picture || [],
+          };
+        });
         setReports(mappedReports);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error');
