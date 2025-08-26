@@ -77,10 +77,16 @@ const ReportDetailPage: React.FC = () => {
   if (report.picture) {
     if (Array.isArray(report.picture)) {
       // Flat array
-      img = report.picture[0]?.formats?.thumbnail?.url || report.picture[0]?.url || '';
+      img = report.picture[0]?.formats?.large?.url
+         || report.picture[0]?.formats?.medium?.url
+         || report.picture[0]?.url
+         || '';
     } else if (report.picture.data) {
       // Strapi v4 nested
-      img = report.picture.data[0]?.attributes?.formats?.thumbnail?.url || report.picture.data[0]?.attributes?.url || '';
+      img = report.picture.data[0]?.attributes?.formats?.large?.url
+         || report.picture.data[0]?.attributes?.formats?.medium?.url
+         || report.picture.data[0]?.attributes?.url
+         || '';
     }
   }
 
