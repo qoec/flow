@@ -86,7 +86,7 @@ const ReportDetailPage: React.FC = () => {
 
   // Check for required fields
   const requiredFields = [
-    'name', 'price', 'currency', 'category', 'region', 'type', 'pages', 'date', 'description', 'shortDescription', 'keyInsights', 'tableOfContents', 'whatIncludes', 'picture', 'documentId'
+    'name', 'price', 'currency', 'category', 'region', 'type', 'pages', 'date', 'description', 'shortDescription', 'keyInsights', 'tableOfContents', 'whatIncludes', 'picture', /* 'documentId' */
   ];
   const missingFields = requiredFields.filter(f => report && (report[f] === undefined || report[f] === null || (Array.isArray(report[f]) && report[f].length === 0)));
 
