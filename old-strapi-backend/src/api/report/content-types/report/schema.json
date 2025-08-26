@@ -1,0 +1,67 @@
+{
+  "kind": "collectionType",
+  "collectionName": "reports",
+  "info": {
+    "singularName": "report",
+    "pluralName": "reports",
+    "displayName": "Report"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "description": {
+      "type": "text"
+    },
+    "name": {
+      "type": "string"
+    },
+    "price": {
+      "type": "decimal"
+    },
+    "picture": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "shortDescription": {
+      "type": "string"
+    },
+    "currency": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "region": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "pages": {
+      "type": "integer"
+    },
+    "date": {
+      "type": "datetime"
+    },
+    "featured": {
+      "type": "boolean"
+    },
+    "keyInsights": {
+      "type": "json"
+    },
+    "tableOfContents": {
+      "type": "json"
+    },
+    "whatIncludes": {
+      "type": "json"
+    }
+  }
+}

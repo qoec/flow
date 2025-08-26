@@ -362,6 +362,50 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiReportReport extends Schema.CollectionType {
+  collectionName: 'reports';
+  info: {
+    singularName: 'report';
+    pluralName: 'reports';
+    displayName: 'Report';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    description: Attribute.Text;
+    name: Attribute.String;
+    price: Attribute.Decimal;
+    picture: Attribute.Media<'images' | 'files' | 'videos' | 'audios', true>;
+    shortDescription: Attribute.String;
+    currency: Attribute.String;
+    category: Attribute.String;
+    region: Attribute.String;
+    type: Attribute.String;
+    pages: Attribute.Integer;
+    date: Attribute.DateTime;
+    featured: Attribute.Boolean;
+    keyInsights: Attribute.JSON;
+    tableOfContents: Attribute.JSON;
+    whatIncludes: Attribute.JSON;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::report.report',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::report.report',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -590,6 +634,303 @@ export interface PluginContentReleasesReleaseAction
   };
 }
 
+export interface PluginStripePaymentProduct extends Schema.CollectionType {
+  collectionName: 'products';
+  info: {
+    singularName: 'product';
+    pluralName: 'products';
+    displayName: 'Product';
+  };
+  options: {
+    draftAndPublish: false;
+    comment: '';
+  };
+  attributes: {
+    name: Attribute.String;
+    stripe_id: Attribute.String;
+    plans: Attribute.Relation<
+      'plugin::stripe-payment.product',
+      'oneToMany',
+      'plugin::stripe-payment.plan'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::stripe-payment.product',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::stripe-payment.product',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface PluginStripePaymentPlan extends Schema.CollectionType {
+  collectionName: 'plans';
+  info: {
+    singularName: 'plan';
+    pluralName: 'plans';
+    displayName: 'Plan';
+  };
+  options: {
+    draftAndPublish: false;
+    comment: '';
+  };
+  attributes: {
+    price: Attribute.Integer;
+    stripe_id: Attribute.String;
+    interval: Attribute.Enumeration<['month', 'year']>;
+    type: Attribute.Enumeration<['recurring', 'one-time']> &
+      Attribute.DefaultTo<'recurring'>;
+    currency: Attribute.String;
+    product: Attribute.Relation<
+      'plugin::stripe-payment.plan',
+      'manyToOne',
+      'plugin::stripe-payment.product'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::stripe-payment.plan',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::stripe-payment.plan',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface PluginStripePaymentOrganization extends Schema.CollectionType {
+  collectionName: 'organizations';
+  info: {
+    singularName: 'organization';
+    pluralName: 'organizations';
+    displayName: 'Organization';
+  };
+  options: {
+    draftAndPublish: false;
+    comment: '';
+  };
+  attributes: {
+    name: Attribute.String;
+    customer_id: Attribute.String;
+    payment_method_id: Attribute.String;
+    owner_id: Attribute.String;
+    users: Attribute.Relation<
+      'plugin::stripe-payment.organization',
+      'oneToMany',
+      'plugin::users-permissions.user'
+    >;
+    subscription: Attribute.Relation<
+      'plugin::stripe-payment.organization',
+      'oneToOne',
+      'plugin::stripe-payment.subscription'
+    >;
+    purchases: Attribute.Relation<
+      'plugin::stripe-payment.organization',
+      'oneToMany',
+      'plugin::stripe-payment.purchase'
+    >;
+    quantity: Attribute.Integer;
+    transactions: Attribute.Relation<
+      'plugin::stripe-payment.organization',
+      'oneToMany',
+      'plugin::stripe-payment.transaction'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::stripe-payment.organization',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::stripe-payment.organization',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface PluginStripePaymentSubscription extends Schema.CollectionType {
+  collectionName: 'subscriptions';
+  info: {
+    singularName: 'subscription';
+    pluralName: 'subscriptions';
+    displayName: 'Subscription';
+  };
+  options: {
+    draftAndPublish: false;
+    comment: '';
+  };
+  attributes: {
+    stripe_id: Attribute.String;
+    organization: Attribute.Relation<
+      'plugin::stripe-payment.subscription',
+      'oneToOne',
+      'plugin::stripe-payment.organization'
+    >;
+    plan: Attribute.Relation<
+      'plugin::stripe-payment.subscription',
+      'oneToOne',
+      'plugin::stripe-payment.plan'
+    >;
+    status: Attribute.Enumeration<
+      ['trialing', 'active', 'cancelled', 'paused']
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::stripe-payment.subscription',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::stripe-payment.subscription',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface PluginStripePaymentTransaction extends Schema.CollectionType {
+  collectionName: 'transactions';
+  info: {
+    singularName: 'transaction';
+    pluralName: 'transactions';
+    displayName: 'Payment transactions';
+  };
+  options: {
+    draftAndPublish: false;
+    comment: '';
+  };
+  attributes: {
+    subscriptionId: Attribute.Integer;
+    organization: Attribute.Relation<
+      'plugin::stripe-payment.transaction',
+      'manyToOne',
+      'plugin::stripe-payment.organization'
+    >;
+    purchaseId: Attribute.Integer;
+    status: Attribute.Enumeration<['pending', 'completed', 'failed']>;
+    externalTransaction: Attribute.JSON;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::stripe-payment.transaction',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::stripe-payment.transaction',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface PluginStripePaymentPurchase extends Schema.CollectionType {
+  collectionName: 'purchases';
+  info: {
+    singularName: 'purchase';
+    pluralName: 'purchases';
+    displayName: 'Purchase';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    stripe_id: Attribute.String;
+    plan: Attribute.Relation<
+      'plugin::stripe-payment.purchase',
+      'oneToOne',
+      'plugin::stripe-payment.plan'
+    >;
+    organization: Attribute.Relation<
+      'plugin::stripe-payment.purchase',
+      'manyToOne',
+      'plugin::stripe-payment.organization'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::stripe-payment.purchase',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::stripe-payment.purchase',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface PluginI18NLocale extends Schema.CollectionType {
+  collectionName: 'i18n_locale';
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+          max: 50;
+        },
+        number
+      >;
+    code: Attribute.String & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUsersPermissionsPermission
   extends Schema.CollectionType {
   collectionName: 'up_permissions';
@@ -741,53 +1082,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface PluginI18NLocale extends Schema.CollectionType {
-  collectionName: 'i18n_locale';
-  info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
-  };
-  attributes: {
-    name: Attribute.String &
-      Attribute.SetMinMax<
-        {
-          min: 1;
-          max: 50;
-        },
-        number
-      >;
-    code: Attribute.String & Attribute.Unique;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -798,14 +1092,21 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::report.report': ApiReportReport;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
+      'plugin::stripe-payment.product': PluginStripePaymentProduct;
+      'plugin::stripe-payment.plan': PluginStripePaymentPlan;
+      'plugin::stripe-payment.organization': PluginStripePaymentOrganization;
+      'plugin::stripe-payment.subscription': PluginStripePaymentSubscription;
+      'plugin::stripe-payment.transaction': PluginStripePaymentTransaction;
+      'plugin::stripe-payment.purchase': PluginStripePaymentPurchase;
+      'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
     }
   }
 }

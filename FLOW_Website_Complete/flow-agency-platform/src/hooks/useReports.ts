@@ -58,14 +58,13 @@ export const useReports = () => {
   useEffect(() => {
     const fetchReports = async () => {
       try {
-        const response = await fetch('https://credible-luck-2382057333.strapiapp.com/api/products?populate=picture');
+        const response = await fetch('https://reliable-crown-c39c2b69e7.strapiapp.com/api/reports?populate=picture');
         if (!response.ok) {
           throw new Error('Failed to fetch reports');
         }
         const data = await response.json();
         // Map Strapi response to your Report type (fields at top level)
         const mappedReports = data.data.map((item: any) => {
-          // Strapi v4: { id, attributes: {...fields} }
           const attrs = item.attributes || item;
           return {
             id: item.id,
@@ -83,9 +82,9 @@ export const useReports = () => {
             keyInsights: attrs.keyInsights || [],
             tableOfContents: attrs.tableOfContents || [],
             whatIncludes: attrs.whatIncludes || [],
-            image: attrs.picture && attrs.picture.length > 0
+            image: Array.isArray(attrs.picture) && attrs.picture.length > 0
               ? attrs.picture[0].formats?.thumbnail?.url || attrs.picture[0].url
-              : '',
+              : (attrs.picture?.formats?.thumbnail?.url || attrs.picture?.url || ''),
             featured: attrs.featured || false,
             documentId: attrs.documentId || '',
             picture: attrs.picture || [],
