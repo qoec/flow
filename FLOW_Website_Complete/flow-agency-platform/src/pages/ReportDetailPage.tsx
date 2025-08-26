@@ -71,15 +71,17 @@ const ReportDetailPage: React.FC = () => {
     );
   }
 
-  // Robust image extraction for Strapi v4 and flat arrays
+  // Robust image extraction for Strapi v4 and flat arrays/nulls
   let img = '';
   if (report.picture) {
-    if (Array.isArray(report.picture)) {
-      // Flat array
+    if (Array.isArray(report.picture) && report.picture.length > 0) {
       img = report.picture[0]?.formats?.thumbnail?.url || report.picture[0]?.url || '';
     } else if (report.picture.data) {
-      // Strapi v4 nested
-      img = report.picture.data[0]?.attributes?.formats?.thumbnail?.url || report.picture.data[0]?.attributes?.url || '';
+      if (Array.isArray(report.picture.data) && report.picture.data.length > 0) {
+        img = report.picture.data[0]?.attributes?.formats?.thumbnail?.url || report.picture.data[0]?.attributes?.url || '';
+      } else if (report.picture.data && typeof report.picture.data === 'object') {
+        img = report.picture.data.attributes?.formats?.thumbnail?.url || report.picture.data.attributes?.url || '';
+      }
     }
   }
 
