@@ -79,15 +79,48 @@ export const useReports = () => {
             date: attrs.date || '',
             description: attrs.description || '',
             shortDescription: attrs.shortDescription || '',
-            keyInsights: attrs.keyInsights || [],
-            tableOfContents: attrs.tableOfContents || [],
-            whatIncludes: attrs.whatIncludes || [],
-            image: attrs.picture && attrs.picture.length > 0
-              ? attrs.picture[0].formats?.thumbnail?.url || attrs.picture[0].url
-              : '',
+            keyInsights: Array.isArray(attrs.keyInsights)
+              ? attrs.keyInsights
+              : (typeof attrs.keyInsights === 'string' && attrs.keyInsights ? [attrs.keyInsights] : []),
+            tableOfContents: Array.isArray(attrs.tableOfContents)
+              ? attrs.tableOfContents
+              : (typeof attrs.tableOfContents === 'string' && attrs.tableOfContents ? [attrs.tableOfContents] : []),
+            whatIncludes: Array.isArray(attrs.whatIncludes)
+              ? attrs.whatIncludes
+              : (typeof attrs.whatIncludes === 'string' && attrs.whatIncludes ? [attrs.whatIncludes] : []),
+            image: (() => {
+              // Strapi v4 media field can be: null, {data: null}, {data: [...]}, {data: {...}}, or array
+              const pic = attrs.picture;
+              if (!pic) return '';
+              if (Array.isArray(pic)) {
+                // Flat array (rare)
+                return pic[0]?.formats?.thumbnail?.url || pic[0]?.url || '';
+              }
+              if (pic.data) {
+                if (Array.isArray(pic.data) && pic.data.length > 0) {
+                  return pic.data[0].attributes?.formats?.thumbnail?.url || pic.data[0].attributes?.url || '';
+                }
+                if (pic.data && typeof pic.data === 'object') {
+                  return pic.data.attributes?.formats?.thumbnail?.url || pic.data.attributes?.url || '';
+                }
+                return '';
+              }
+              return '';
+            })(),
             featured: attrs.featured || false,
             documentId: attrs.documentId || '',
-            picture: attrs.picture || [],
+            picture: (() => {
+              // Always return an array for picture
+              const pic = attrs.picture;
+              if (!pic) return [];
+              if (Array.isArray(pic)) return pic;
+              if (pic.data) {
+                if (Array.isArray(pic.data)) return pic.data.map((d: any) => d.attributes || d).filter(Boolean);
+                if (pic.data && typeof pic.data === 'object') return [pic.data.attributes || pic.data];
+                return [];
+              }
+              return [];
+            })(),
           };
         });
         setReports(mappedReports);

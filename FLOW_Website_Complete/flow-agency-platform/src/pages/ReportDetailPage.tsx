@@ -43,6 +43,16 @@ const ReportDetailPage: React.FC = () => {
     });
   };
 
+  const handleAddToCart = () => {
+    if (report) {
+      addToCart(report);
+    }
+  };
+
+  const handlePurchase = () => {
+    alert('Функция покупки будет доступна после интеграции платежной системы');
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 py-12">
@@ -61,8 +71,19 @@ const ReportDetailPage: React.FC = () => {
     );
   }
 
-  // Extract image URL (original logic)
-  const img = report && report.image;
+  // Robust image extraction for Strapi v4 and flat arrays/nulls
+  let img = '';
+  if (report.picture) {
+    if (Array.isArray(report.picture) && report.picture.length > 0) {
+      img = report.picture[0]?.formats?.thumbnail?.url || report.picture[0]?.url || '';
+    } else if (report.picture.data) {
+      if (Array.isArray(report.picture.data) && report.picture.data.length > 0) {
+        img = report.picture.data[0]?.attributes?.formats?.thumbnail?.url || report.picture.data[0]?.attributes?.url || '';
+      } else if (report.picture.data && typeof report.picture.data === 'object') {
+        img = report.picture.data.attributes?.formats?.thumbnail?.url || report.picture.data.attributes?.url || '';
+      }
+    }
+  }
 
   // Check for required fields
   const requiredFields = [
@@ -197,7 +218,7 @@ const ReportDetailPage: React.FC = () => {
                   Купить сейчас
                 </button>
                 <button
-                  onClick={() => addToCart(report)}
+                  onClick={handleAddToCart}
                   className="w-full py-3 border-2 border-blue-600 text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors flex items-center justify-center space-x-2"
                 >
                   <ShoppingCart className="w-4 h-4" />
