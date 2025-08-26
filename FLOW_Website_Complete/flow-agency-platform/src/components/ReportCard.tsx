@@ -36,7 +36,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, featured = false }) => 
       {/* Image */}
       <div className="relative overflow-hidden">
         <img 
-          src={report.image} 
+          src={report.image || '/images/placeholder.png'}
           alt={report.title}
           className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
         />
