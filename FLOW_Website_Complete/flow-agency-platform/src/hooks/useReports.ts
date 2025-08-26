@@ -94,14 +94,23 @@ export const useReports = () => {
               if (!pic) return '';
               if (Array.isArray(pic)) {
                 // Flat array (rare)
-                return pic[0]?.formats?.thumbnail?.url || pic[0]?.url || '';
+                return pic[0]?.formats?.large?.url
+                  || pic[0]?.formats?.medium?.url
+                  || pic[0]?.url
+                  || '';
               }
               if (pic.data) {
                 if (Array.isArray(pic.data) && pic.data.length > 0) {
-                  return pic.data[0].attributes?.formats?.thumbnail?.url || pic.data[0].attributes?.url || '';
+                  return pic.data[0].attributes?.formats?.large?.url
+                    || pic.data[0].attributes?.formats?.medium?.url
+                    || pic.data[0].attributes?.url
+                    || '';
                 }
                 if (pic.data && typeof pic.data === 'object') {
-                  return pic.data.attributes?.formats?.thumbnail?.url || pic.data.attributes?.url || '';
+                  return pic.data.attributes?.formats?.large?.url
+                    || pic.data.attributes?.formats?.medium?.url
+                    || pic.data.attributes?.url
+                    || '';
                 }
                 return '';
               }
