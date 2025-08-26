@@ -159,7 +159,7 @@ const ReportDetailPage: React.FC = () => {
                 <img 
                   src={img} 
                   alt={report.name || report.title}
-                  className="w-full h-64 object-cover rounded-lg"
+                  className="w-full h-64 object-contain rounded-lg bg-gray-100"
                 />
               )}
             </div>
