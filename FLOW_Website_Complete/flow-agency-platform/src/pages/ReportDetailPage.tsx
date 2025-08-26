@@ -15,7 +15,7 @@ const ReportDetailPage: React.FC = () => {
     if (!id) return;
     setLoading(true);
     setError(null);
-    fetch(`https://credible-luck-2382057333.strapiapp.com/api/products?filters[id][$eq]=${id}&populate=picture`)
+  fetch(`https://reliable-crown-c39c2b69e7.strapiapp.com/api/reports?filters[id][$eq]=${id}&populate=picture`)
       .then(res => res.json())
       .then(data => {
         if (data.data && data.data.length > 0) {
