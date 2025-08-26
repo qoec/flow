@@ -79,9 +79,15 @@ export const useReports = () => {
             date: attrs.date || '',
             description: attrs.description || '',
             shortDescription: attrs.shortDescription || '',
-            keyInsights: attrs.keyInsights || [],
-            tableOfContents: attrs.tableOfContents || [],
-            whatIncludes: attrs.whatIncludes || [],
+            keyInsights: Array.isArray(attrs.keyInsights)
+              ? attrs.keyInsights
+              : (typeof attrs.keyInsights === 'string' && attrs.keyInsights ? [attrs.keyInsights] : []),
+            tableOfContents: Array.isArray(attrs.tableOfContents)
+              ? attrs.tableOfContents
+              : (typeof attrs.tableOfContents === 'string' && attrs.tableOfContents ? [attrs.tableOfContents] : []),
+            whatIncludes: Array.isArray(attrs.whatIncludes)
+              ? attrs.whatIncludes
+              : (typeof attrs.whatIncludes === 'string' && attrs.whatIncludes ? [attrs.whatIncludes] : []),
             image: Array.isArray(attrs.picture) && attrs.picture.length > 0
               ? attrs.picture[0].formats?.thumbnail?.url || attrs.picture[0].url
               : (attrs.picture?.formats?.thumbnail?.url || attrs.picture?.url || ''),
