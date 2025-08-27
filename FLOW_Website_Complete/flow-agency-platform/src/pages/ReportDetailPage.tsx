@@ -50,8 +50,29 @@ const ReportDetailPage: React.FC = () => {
     }
   };
 
-  const handlePurchase = () => {
-    alert('Функция покупки будет доступна после интеграции платежной системы');
+
+  // Stripe one-time purchase handler
+  const handleBuyNow = async () => {
+    try {
+      const backendUrl = process.env.REACT_APP_STRAPI_URL || 'https://reliable-crown-c39c2b69e7.strapiapp.com/';
+      const res = await fetch(`${backendUrl}/stripe-payment/api/purchases/checkout-session`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          reportId: report.id,
+          // Add user/org info if needed
+        }),
+        credentials: 'include',
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert('Failed to start checkout');
+      }
+    } catch (err) {
+      alert('Error connecting to payment gateway');
+    }
   };
 
   if (loading) {
@@ -217,8 +238,8 @@ const ReportDetailPage: React.FC = () => {
               </div>
               <div className="space-y-3 mb-6">
                 <button
-                  onClick={() => alert('Оплата будет доступна после интеграции платежной системы (Stripe, YooKassa, etc).')}
-                  className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                  onClick={handleBuyNow}
+                  className="w-full py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors"
                 >
                   Купить сейчас
                 </button>

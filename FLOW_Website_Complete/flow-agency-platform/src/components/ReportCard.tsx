@@ -29,6 +29,33 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, featured = false }) => 
     addToCart(report);
   };
 
+  // Stripe one-time purchase handler
+  const handleBuyNow = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      const backendUrl = process.env.REACT_APP_STRAPI_URL || 'https://reliable-crown-c39c2b69e7.strapiapp.com/';
+      // You may need to adjust the endpoint and payload based on your backend
+      const res = await fetch(`${backendUrl}/stripe-payment/api/purchases/checkout-session`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          reportId: report.id,
+          // Add user/org info if needed
+        }),
+        credentials: 'include',
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert('Failed to start checkout');
+      }
+    } catch (err) {
+      alert('Error connecting to payment gateway');
+    }
+  };
+
   return (
     <div className={`bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 group ${
       featured ? 'ring-2 ring-blue-100' : ''
@@ -123,7 +150,13 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, featured = false }) => 
             >
               View Details
             </Link>
-            
+            <button
+              onClick={handleBuyNow}
+              className="p-2 text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors group"
+              title="Buy now"
+            >
+              Buy Now
+            </button>
             <button
               onClick={handleAddToCart}
               className="p-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors group"
